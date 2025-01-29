@@ -25,16 +25,15 @@ class _LoginScreenState extends State<LoginScreen> {
         // Sign in using Firebase Authentication
         UserCredential userCredential =
             await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _username, // Assuming _username is the email
+          email: _username,
           password: _password,
         );
 
-        // Store the login status in SharedPreferences
+        // Store login status in SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLoggedIn', true);
         await prefs.setString('username', _username);
-        await prefs.setString(
-            'userId', userCredential.user!.uid); // Save user ID
+        await prefs.setString('userId', userCredential.user!.uid);
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Login successful')),

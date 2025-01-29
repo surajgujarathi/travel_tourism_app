@@ -22,14 +22,20 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       try {
-        // Store user data in Firestore
-        await _firestore.collection('users').add({
+        // Register user with Firebase Authentication
+        UserCredential userCredential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _username, // Assuming _username is the email
+          password: _password,
+        );
+
+        // Store additional user details in Firestore
+        await _firestore.collection('users').doc(userCredential.user!.uid).set({
           'username': _username,
-          'password': _password, // Storing password as plain text is not secure
           'createdAt': FieldValue.serverTimestamp(),
         });
 
-        // Show a dialog to confirm successful user creation
+        // Show success message
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -52,9 +58,9 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
             );
           },
         );
-      } catch (e) {
+      } on FirebaseAuthException catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
+          SnackBar(content: Text('Error: ${e.message}')),
         );
       }
     }

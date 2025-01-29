@@ -126,6 +126,16 @@ class _BeachDetailsScreenState extends State<BeachDetailsScreen> {
                 ),
                 onPressed: _toggleFavorite,
               ),
+              IconButton(
+                icon: Icon(
+                  Icons.star,
+                  color: Colors.yellow,
+                ),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => ProfileScreen()));
+                },
+              ),
             ],
           ),
           SliverToBoxAdapter(
