@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "236481371721",
+    "project_id": "studentdb-abdd7",
+    "storage_bucket": "studentdb-abdd7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236481371721:android:88a8dc5e3b3718e0dbe998",
+        "android_client_info": {
+          "package_name": "com.example.student_db"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpunCzU2puXk7im-CHCI_Nkdfp1FIQtoc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236481371721:android:52a503af3b8e9576dbe998",
+        "android_client_info": {
+          "package_name": "com.example.travel_tourism_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpunCzU2puXk7im-CHCI_Nkdfp1FIQtoc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
