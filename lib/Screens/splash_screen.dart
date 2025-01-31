@@ -40,7 +40,8 @@ class _SplashScreenState extends State<SplashScreen>
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => isLoggedIn ? HomeScreen() : LoginScreen()),
+            builder: (context) =>
+                isLoggedIn ? const HomeScreen() : const LoginScreen()),
       );
     }
   }
@@ -67,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20), // Rounded corners
                   boxShadow: [
-                    BoxShadow(
+                    const BoxShadow(
                       color: Colors.black26, // Soft shadow effect
                       blurRadius: 10,
                       spreadRadius: 2,
