@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // Go to ProfileScreen or LoginScreen if logged out
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => WishlistScreen()),
+        MaterialPageRoute(builder: (context) => SettingScreen()),
       );
     }
   }
@@ -95,11 +95,11 @@ class _HomeScreenState extends State<HomeScreen> {
         slivers: [
           SliverAppBar(
             backgroundColor: Colors.blueAccent,
-            expandedHeight: 200.0,
+            expandedHeight: 88.0,
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
+              titlePadding: const EdgeInsets.only(left: 16, bottom: 10),
               title: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,10 +239,24 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Wishlist',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Profile',
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
+      ),
+    );
+  }
+}
+
+class SettingScreen extends StatelessWidget {
+  const SettingScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: Text('Comming Soon......'),
       ),
     );
   }
