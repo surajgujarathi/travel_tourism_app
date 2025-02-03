@@ -490,6 +490,7 @@ class Beach {
   final List<String> activities;
   bool isFavorite;
   double rating;
+  final String? category;
 
   Beach({
     required this.id,
@@ -502,6 +503,7 @@ class Beach {
     required this.activities,
     this.isFavorite = false,
     this.rating = 0.0,
+    this.category,
   });
 
   String get waterQuality {
@@ -521,6 +523,7 @@ final List<Beach> beaches = [
     location: 'Goa',
     waveHeight: 0.5,
     windSpeed: 100,
+    category: "Honeymoon",
     description:
         'Known as the Queen of Beaches, Calangute is the largest beach in North Goa. '
         'It is famous for its golden sand, vibrant nightlife, and water sports activities. '
@@ -534,6 +537,7 @@ final List<Beach> beaches = [
     location: 'Chennai',
     waveHeight: 1.2,
     windSpeed: 15,
+    category: "Honeymoon",
     description:
         'Marina Beach is a natural urban beach along the Bay of Bengal, and is one of the longest beaches in the world. '
         'Located in Chennai, this beach is known for its wide promenade, historical landmarks, and the iconic lighthouse. '
@@ -552,6 +556,7 @@ final List<Beach> beaches = [
     location: 'Kerala',
     waveHeight: 0.8,
     windSpeed: 12,
+    category: "Solo",
     description:
         'Varkala Beach is a hidden gem in Kerala, known for its stunning cliffs that rise dramatically over the Arabian Sea. '
         'The beach is famous for its pristine waters, Ayurveda resorts, and the Papanasam beach, where people come for ritualistic dips. '
@@ -588,6 +593,7 @@ final List<Beach> beaches = [
     location: 'Kerala',
     waveHeight: 1.5,
     windSpeed: 20,
+    category: "Solo",
     description:
         'Kovalam Beach is a world-renowned beach in Kerala, known for its crescent-shaped coastline and calm waters. '
         'The beach is famous for its lighthouses, clear waters, and golden sand, making it a popular spot for sunbathing and swimming. '
@@ -619,6 +625,7 @@ final List<Beach> beaches = [
     location: 'Goa',
     waveHeight: 0.6,
     windSpeed: 14,
+    category: "Solo",
     description:
         'Palolem Beach is a picturesque beach located in South Goa, famous for its crescent-shaped shoreline and calm waters. '
         'It is known for its laid-back vibe, beach huts, and vibrant nightlife. '
@@ -654,6 +661,7 @@ final List<Beach> beaches = [
   Beach(
     id: '10',
     name: 'Mandrem Beach',
+    category: "Honeymoon",
     image: 'assets/mandrem.jpg',
     location: 'Goa',
     waveHeight: 0.3,
@@ -720,6 +728,7 @@ final List<Beach> beaches = [
   Beach(
     id: '15',
     name: 'Paradise Beach',
+    category: "Honeymoon",
     image: 'assets/paradise.jpeg',
     location: 'Pondicherry',
     waveHeight: 0.5,
@@ -734,6 +743,7 @@ final List<Beach> beaches = [
     name: 'Ramakrishna Beach',
     image: 'assets/rk.jpg',
     location: 'Visakhapatnam',
+    category: "Family",
     waveHeight: 1.3,
     windSpeed: 10,
     description:
@@ -746,6 +756,7 @@ final List<Beach> beaches = [
     name: 'Tarkarli Beach',
     image: 'assets/tarkarli.jpg',
     location: 'Maharashtra',
+    category: "Family",
     waveHeight: 0.8,
     windSpeed: 12,
     description:
@@ -758,6 +769,7 @@ final List<Beach> beaches = [
     name: 'Ganpatipule Beach',
     image: 'assets/ganapatipule.jpeg.webp',
     location: 'Maharashtra',
+    category: "Family",
     waveHeight: 1.1,
     windSpeed: 14,
     description:
@@ -770,6 +782,7 @@ final List<Beach> beaches = [
     name: 'Bangaram Beach',
     image: 'assets/bangaram.jpeg',
     location: 'Lakshadweep',
+    category: "Family",
     waveHeight: 0.4,
     windSpeed: 6,
     description:
@@ -794,6 +807,7 @@ final List<Beach> beaches = [
     name: 'Dhanushkodi Beach',
     image: 'assets/Dhanushkodi.webp',
     location: 'Rameshwaram',
+    category: "Family",
     waveHeight: 0.3,
     windSpeed: 8,
     description:
@@ -809,6 +823,7 @@ final List<Beach> beaches = [
     location: 'Odisha',
     waveHeight: 1.1,
     windSpeed: 12,
+    category: "Family",
     description:
         'Puri Beach is a popular destination in Odisha, known for its cultural significance and golden sands. '
         'It is a hub for pilgrims visiting the Jagannath Temple and offers beautiful sunrise and sunset views. '
