@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:travel_tourism_app/demo.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:travel_tourism_app/screens/login_screen.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +20,8 @@ class BeachDetailsScreen extends StatefulWidget {
 }
 
 class _BeachDetailsScreenState extends State<BeachDetailsScreen> {
+  final ImagePicker _picker = ImagePicker();
+  XFile? _image; // Store the selected image
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   double _userRating = 0.0;
@@ -29,6 +34,14 @@ class _BeachDetailsScreenState extends State<BeachDetailsScreen> {
     super.initState();
     _initializePrefs();
     _getUserRating();
+  }
+
+  // Method to pick an image from the gallery
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = pickedFile;
+    });
   }
 
   Future<void> _initializePrefs() async {
@@ -58,7 +71,7 @@ class _BeachDetailsScreenState extends State<BeachDetailsScreen> {
     final userId = _auth.currentUser?.uid;
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('You need to log in to rate the beach.')),
+        const SnackBar(content: Text('You need to log in to rate the beach.')),
       );
       return;
     }
@@ -83,7 +96,7 @@ class _BeachDetailsScreenState extends State<BeachDetailsScreen> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Rating saved successfully!')),
+        const SnackBar(content: Text('Rating saved successfully!')),
       );
     } catch (e) {
       print('Error saving rating: $e');
@@ -98,7 +111,7 @@ class _BeachDetailsScreenState extends State<BeachDetailsScreen> {
     final review = _reviewController.text.trim();
     if (userId == null || review.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('You need to log in and enter a review.')),
+        const SnackBar(content: Text('You need to log in and enter a review.')),
       );
       return;
     }
@@ -116,7 +129,7 @@ class _BeachDetailsScreenState extends State<BeachDetailsScreen> {
       }, SetOptions(merge: true));
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Review submitted successfully!')),
+        const SnackBar(content: Text('Review submitted successfully!')),
       );
 
       // This forces the UI to refresh after submitting the review
@@ -180,7 +193,7 @@ class _BeachDetailsScreenState extends State<BeachDetailsScreen> {
                 onPressed: _toggleFavorite,
               ),
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.star,
                   color: Colors.yellow,
                 ),
@@ -188,7 +201,7 @@ class _BeachDetailsScreenState extends State<BeachDetailsScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => ReviewsAndWishListScreen(),
+                      builder: (_) => const ReviewsAndWishListScreen(),
                     ),
                   );
                 },
@@ -293,7 +306,7 @@ class _BeachDetailsScreenState extends State<BeachDetailsScreen> {
                     // Review Section
                     TextFormField(
                       controller: _reviewController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Write a review',
                         border: OutlineInputBorder(),
                         hintText: 'Enter your review here...',
@@ -303,10 +316,33 @@ class _BeachDetailsScreenState extends State<BeachDetailsScreen> {
                     const SizedBox(height: 8),
                     ElevatedButton(
                       onPressed: _submitReview,
-                      child: Text('Submit Review'),
+                      child: const Text('Submit Review'),
                     ),
                   ],
                 ),
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.all(16.0),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  // Display picked image
+                  if (_image != null)
+                    Image.file(
+                      File(_image!.path),
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
+                  const SizedBox(height: 16),
+
+                  // Button to pick image
+                  ElevatedButton(
+                    onPressed: _pickImage,
+                    child: const Text('Add an Image'),
+                  ),
+                ],
               ),
             ),
           ),
@@ -342,116 +378,137 @@ class StarRating extends StatelessWidget {
   }
 }
 
-class ReviewsAndWishListScreen extends StatelessWidget {
+class ReviewsAndWishListScreen extends StatefulWidget {
   const ReviewsAndWishListScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  _ReviewsAndWishListScreenState createState() =>
+      _ReviewsAndWishListScreenState();
+}
 
+class _ReviewsAndWishListScreenState extends State<ReviewsAndWishListScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Ratings'),
+        title: const Text('My Ratings'),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: _firestore
-            .collection('user_reviews') // Fetch reviews
-            .doc(_auth.currentUser!.uid)
-            .collection('beaches')
-            .snapshots(),
-        builder: (context, reviewSnapshot) {
-          if (reviewSnapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
+      body: Column(
+        children: [
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: _firestore
+                  .collection('user_reviews') // Fetch reviews
+                  .doc(_auth.currentUser!.uid)
+                  .collection('beaches')
+                  .snapshots(),
+              builder: (context, reviewSnapshot) {
+                if (reviewSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-          if (reviewSnapshot.hasError) {
-            return Center(child: Text('Error: ${reviewSnapshot.error}'));
-          }
+                if (reviewSnapshot.hasError) {
+                  return Center(child: Text('Error: ${reviewSnapshot.error}'));
+                }
 
-          if (!reviewSnapshot.hasData || reviewSnapshot.data!.docs.isEmpty) {
-            return Center(
-                child: Text('You haven\'t reviewed any beaches yet.'));
-          }
+                if (!reviewSnapshot.hasData ||
+                    reviewSnapshot.data!.docs.isEmpty) {
+                  return const Center(
+                      child: Text('You haven\'t reviewed any beaches yet.'));
+                }
 
-          return StreamBuilder<QuerySnapshot>(
-            stream: _firestore
-                .collection('user_ratings') // Fetch ratings
-                .doc(_auth.currentUser!.uid)
-                .collection('beaches')
-                .snapshots(),
-            builder: (context, ratingSnapshot) {
-              if (ratingSnapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              }
+                return StreamBuilder<QuerySnapshot>(
+                  stream: _firestore
+                      .collection('user_ratings') // Fetch ratings
+                      .doc(_auth.currentUser!.uid)
+                      .collection('beaches')
+                      .snapshots(),
+                  builder: (context, ratingSnapshot) {
+                    if (ratingSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
-              if (ratingSnapshot.hasError) {
-                return Center(child: Text('Error: ${ratingSnapshot.error}'));
-              }
+                    if (ratingSnapshot.hasError) {
+                      return Center(
+                          child: Text('Error: ${ratingSnapshot.error}'));
+                    }
 
-              if (!ratingSnapshot.hasData ||
-                  ratingSnapshot.data!.docs.isEmpty) {
-                return Center(
-                    child: Text('You haven\'t rated any beaches yet.'));
-              }
+                    if (!ratingSnapshot.hasData ||
+                        ratingSnapshot.data!.docs.isEmpty) {
+                      return const Center(
+                          child: Text('You haven\'t rated any beaches yet.'));
+                    }
 
-              return ListView.builder(
-                itemCount: reviewSnapshot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  var reviewData = reviewSnapshot.data!.docs[index].data()
-                      as Map<String, dynamic>;
-                  var ratingData = ratingSnapshot.data!.docs[index].data()
-                      as Map<String, dynamic>;
+                    return ListView.builder(
+                      itemCount: reviewSnapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        var reviewData = reviewSnapshot.data!.docs[index].data()
+                            as Map<String, dynamic>;
+                        var ratingData = ratingSnapshot.data!.docs[index].data()
+                            as Map<String, dynamic>;
 
-                  return Card(
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    elevation: 4,
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.all(16),
-                      title: Text(
-                        reviewData['beachName'] ?? 'Unknown Beach',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Display the review
-                          Text(
-                            'Reviews: ${reviewData['review'] ?? 'No review'}',
-                            style: Theme.of(context).textTheme.bodyMedium,
+                        return Card(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 16),
+                          elevation: 4,
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(16),
+                            title: Text(
+                              reviewData['beachName'] ?? 'Unknown Beach',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Display the review
+                                Text(
+                                  'Reviews: ${reviewData['review'] ?? 'No review'}',
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                const SizedBox(height: 8),
+
+                                // Display the rating
+                                Row(
+                                  children: [
+                                    const Icon(Icons.star,
+                                        color: Colors.amber, size: 18),
+                                    Text(
+                                      ratingData['rating'] != null
+                                          ? ratingData['rating']
+                                              .toStringAsFixed(1)
+                                          : 'No rating',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                  ],
+                                ),
+
+                                const SizedBox(height: 8),
+
+                                // Display the timestamp of the review
+                                Text(
+                                  'Rated on: ${(reviewData['timestamp'] as Timestamp).toDate().toString().split('.')[0]}',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
+                            ),
                           ),
-                          const SizedBox(height: 8),
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
 
-                          // Display the rating
-                          Row(
-                            children: [
-                              Icon(Icons.star, color: Colors.amber, size: 18),
-                              Text(
-                                ratingData['rating'] != null
-                                    ? ratingData['rating'].toStringAsFixed(1)
-                                    : 'No rating',
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(height: 8),
-
-                          // Display the timestamp of the review
-                          Text(
-                            'Rated on: ${(reviewData['timestamp'] as Timestamp).toDate().toString().split('.')[0]}',
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-            },
-          );
-        },
+          // Image Picker Section
+        ],
       ),
     );
   }

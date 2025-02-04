@@ -693,7 +693,11 @@ final List<Beach> beaches = [
   Beach(
     id: '11',
     name: 'Mandarmani Beach',
-    image: ['assets/mandarmani.jpg', 'assets/kapu.jpg.webp'],
+    image: [
+      'assets/mandarmani.jpg',
+      'assets/kapu.jpg.webp',
+      'assets/mandarmani.jpg',
+    ],
     location: 'West Bengal',
     waveHeight: 0.7,
     windSpeed: 10,
@@ -710,7 +714,11 @@ final List<Beach> beaches = [
   Beach(
     id: '12',
     name: 'Kapu Beach',
-    image: ['assets/kapu.jpg.webp'],
+    image: [
+      'assets/kapu.jpg.webp',
+      'assets/mandarmani.jpg',
+      'assets/gokarana.jpeg'
+    ],
     location: 'Karnataka',
     waveHeight: 0.9,
     windSpeed: 12,
@@ -722,7 +730,11 @@ final List<Beach> beaches = [
   Beach(
     id: '13',
     name: 'Gokarna Beach',
-    image: ['assets/gokarana.jpeg'],
+    image: [
+      'assets/gokarana.jpeg',
+      'assets/kapu.jpg.webp',
+      'assets/mandarmani.jpg',
+    ],
     location: 'Karnataka',
     waveHeight: 1.0,
     windSpeed: 15,
@@ -734,7 +746,11 @@ final List<Beach> beaches = [
   Beach(
     id: '14',
     name: 'Auroville Beach',
-    image: ['assets/auroville.jpg'],
+    image: [
+      'assets/auroville.jpg',
+      'assets/gokarana.jpeg',
+      'assets/kapu.jpg.webp'
+    ],
     location: 'Pondicherry',
     waveHeight: 0.6,
     windSpeed: 8,
@@ -747,7 +763,11 @@ final List<Beach> beaches = [
     id: '15',
     name: 'Paradise Beach',
     category: "Honeymoon",
-    image: ['assets/paradise.jpeg'],
+    image: [
+      'assets/paradise.jpeg',
+      'assets/kapu.jpg.webp',
+      'assets/auroville.jpg',
+    ],
     location: 'Pondicherry',
     waveHeight: 0.5,
     windSpeed: 7,
@@ -759,7 +779,7 @@ final List<Beach> beaches = [
   Beach(
     id: '16',
     name: 'Ramakrishna Beach',
-    image: ['assets/rk.jpg'],
+    image: ['assets/rk.jpg', 'assets/auroville.jpg', 'assets/tarkarli.jpg'],
     location: 'Visakhapatnam',
     category: "Family",
     waveHeight: 1.3,
@@ -772,7 +792,7 @@ final List<Beach> beaches = [
   Beach(
     id: '17',
     name: 'Tarkarli Beach',
-    image: ['assets/tarkarli.jpg'],
+    image: ['assets/tarkarli.jpg', 'assets/rk.jpg'],
     location: 'Maharashtra',
     category: "Family",
     waveHeight: 0.8,
@@ -785,7 +805,11 @@ final List<Beach> beaches = [
   Beach(
     id: '18',
     name: 'Ganpatipule Beach',
-    image: ['assets/ganapatipule.jpeg.webp'],
+    image: [
+      'assets/ganapatipule.jpeg.webp',
+      'assets/tarkarli.jpg',
+      'assets/rk.jpg'
+    ],
     location: 'Maharashtra',
     category: "Family",
     waveHeight: 1.1,
@@ -798,7 +822,7 @@ final List<Beach> beaches = [
   Beach(
     id: '19',
     name: 'Bangaram Beach',
-    image: ['assets/bangaram.jpeg'],
+    image: ['assets/bangaram.jpeg', 'assets/rk.jpg', 'assets/om.webp'],
     location: 'Lakshadweep',
     category: "Family",
     waveHeight: 0.4,
@@ -811,7 +835,7 @@ final List<Beach> beaches = [
   Beach(
     id: '20',
     name: 'Om Beach',
-    image: ['assets/om.webp'],
+    image: ['assets/om.webp', 'assets/rk.jpg', 'assets/puri.jpg'],
     location: 'Karnataka',
     waveHeight: 0.9,
     windSpeed: 11,
@@ -823,7 +847,7 @@ final List<Beach> beaches = [
   Beach(
     id: '21',
     name: 'Dhanushkodi Beach',
-    image: ['assets/Dhanushkodi.webp'],
+    image: ['assets/Dhanushkodi.webp', 'assets/om.webp', 'assets/rk.jpg'],
     location: 'Rameshwaram',
     category: "Family",
     waveHeight: 0.3,
@@ -837,7 +861,7 @@ final List<Beach> beaches = [
   Beach(
     id: '22',
     name: 'Puri Beach',
-    image: ['assets/puri.jpg'],
+    image: ['assets/puri.jpg', 'assets/rk.jpg', 'assets/om.webp'],
     location: 'Odisha',
     waveHeight: 1.1,
     windSpeed: 12,
