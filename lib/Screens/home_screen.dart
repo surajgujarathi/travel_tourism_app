@@ -31,7 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
       // Go to WishlistScreen
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const WishlistScreen()),
+        MaterialPageRoute(
+            builder: (context) => const ReviewsAndWishListScreen()),
       );
     } else if (index == 2) {
       // Go to ProfileScreen or LoginScreen if logged out
@@ -424,19 +425,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                _buildListTile(
-                  'My stores',
-                  Icons.store,
-                  trailing: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Text(
-                      '2',
-                      style: TextStyle(color: Colors.white),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => WishlistScreen()));
+                  },
+                  child: _buildListTile(
+                    'My Wishlist',
+                    Icons.store,
+                    trailing: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Text(
+                        '2',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
