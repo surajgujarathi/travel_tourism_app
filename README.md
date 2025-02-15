@@ -1,6 +1,6 @@
 # travel_tourism_app
 
-Using sliver appbar 
+Using sliver appbar it is implemented 
 
 
 
